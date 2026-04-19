@@ -1,15 +1,7 @@
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { truncateToWidth, visibleWidth } from "@mariozechner/pi-tui";
+import { truncateToWidth, visibleWidth, yellow } from "../utils";
 
-// Pastel yellow: #FFE066 → RGB(255, 224, 102)
-const PASTEL_YELLOW_FG = "\x1b[38;2;255;224;102m";
-const RESET = "\x1b[0m";
-
-function yellow(text: string): string {
-	return `${PASTEL_YELLOW_FG}${text}${RESET}`;
-}
-
-export default function (pi: ExtensionAPI) {
+export function setupFooter(pi: ExtensionAPI) {
 	pi.on("session_start", async (_event, ctx) => {
 		ctx.ui.setFooter((_tui, _theme, _footerData) => ({
 			invalidate() {},

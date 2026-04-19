@@ -17,7 +17,7 @@ const DANGEROUS_PATTERNS = [
   /curl.*\|\s*(ba)?sh/,       // pipe curl to shell
 ];
 
-export default function (pi: ExtensionAPI) {
+export default function setupPermissionGate(pi: ExtensionAPI) {
   pi.on("tool_call", async (event, ctx) => {
     if (event.tool !== "bash") return;
 

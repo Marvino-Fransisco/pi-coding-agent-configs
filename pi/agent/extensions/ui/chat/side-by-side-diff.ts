@@ -1,37 +1,12 @@
-/**
- * Side-by-Side Diff Extension
- *
- * Replaces the default inline diff rendering for the edit tool with a
- * two-column "Previous" (left) / "Now" (right) card layout with colored
- * backgrounds highlighting deletions (red) and additions (green).
- *
- * Works during both the live preview phase (renderCall, while args stream)
- * and after execution (renderResult).
- *
- * Usage: drop in ~/.pi/agent/extensions/ and /reload
- */
-
 import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
 import { createEditToolDefinition } from "@mariozechner/pi-coding-agent";
 import { Container, Spacer, Text } from "@mariozechner/pi-tui";
 import { Type } from "@sinclair/typebox";
-import { visibleWidth, truncateToWidth, wrapTextWithAnsi } from "@mariozechner/pi-tui";
+import { bgRgb, fgRgb, pad, wrapCell, visibleWidth } from "../utils";
 
-// ---------------------------------------------------------------------------
-// ANSI helpers
-// ---------------------------------------------------------------------------
-
-function bgRgb(r: number, g: number, b: number, text: string): string {
-	return `\x1b[48;2;${r};${g};${b}m${text}\x1b[49m`;
-}
-
-function fgRgb(r: number, g: number, b: number, text: string): string {
-	return `\x1b[38;2;${r};${g};${b}m${text}\x1b[39m`;
-}
-
-// ---------------------------------------------------------------------------
+// =============================================================================
 // Side-by-side diff component
-// ---------------------------------------------------------------------------
+// =============================================================================
 
 interface DiffLine {
 	type: "removed" | "added" | "context" | "ellipsis";
@@ -190,32 +165,19 @@ class SideBySideDiff extends Container {
 	}
 }
 
-// ---------------------------------------------------------------------------
+// =============================================================================
 // Helpers
-// ---------------------------------------------------------------------------
+// =============================================================================
 
-function pad(text: string, width: number): string {
-	const vis = visibleWidth(text);
-	if (vis >= width) return truncateToWidth(text, width, "");
-	return text + " ".repeat(width - vis);
-}
-
-function wrapCell(text: string, width: number): string[] {
-	if (!text || width <= 0) return [""];
-	if (visibleWidth(text) <= width) return [text];
-	return wrapTextWithAnsi(text, width);
-}
-
-/** Extract a short display path from tool args */
 function formatPath(args: any): string | undefined {
 	const rawPath = args?.file_path ?? args?.path;
 	if (typeof rawPath !== "string" || !rawPath) return undefined;
 	return rawPath.length > 50 ? "..." + rawPath.slice(-47) : rawPath;
 }
 
-// ---------------------------------------------------------------------------
-// Extension
-// ---------------------------------------------------------------------------
+// =============================================================================
+// Registration
+// =============================================================================
 
 const editSchema = Type.Object({
 	path: Type.String({ description: "Path to the file to edit" }),
@@ -227,7 +189,7 @@ const editSchema = Type.Object({
 	),
 });
 
-export default function (pi: ExtensionAPI) {
+export function setupChat(pi: ExtensionAPI) {
 	const builtIn = createEditToolDefinition(process.cwd());
 
 	pi.registerTool({

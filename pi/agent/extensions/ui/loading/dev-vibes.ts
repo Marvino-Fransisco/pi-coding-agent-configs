@@ -62,7 +62,7 @@ function randomMessage(): string {
 	return messages[idx];
 }
 
-export default function (pi: ExtensionAPI) {
+export function setupLoading(pi: ExtensionAPI) {
 	pi.on("agent_start", async (_event, ctx) => {
 		if (ctx.hasUI) {
 			ctx.ui.setWorkingMessage(randomMessage());
@@ -74,4 +74,4 @@ export default function (pi: ExtensionAPI) {
 			ctx.ui.setWorkingMessage(randomMessage());
 		}
 	});
-};
+}

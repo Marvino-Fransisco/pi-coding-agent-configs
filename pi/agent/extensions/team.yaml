@@ -1,0 +1,4 @@
+team:
+  general:
+    command: pi -e pi/agent/extensions/template/general.ts
+    description: Basic chatbot with 4 tools capability
