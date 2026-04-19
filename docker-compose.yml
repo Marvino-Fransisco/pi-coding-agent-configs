@@ -11,5 +11,5 @@ services:
       - .env
     volumes:
       - ./pi:/home/node/.pi
-      - ./workspace:/workspace
+      - ${HOST_WS:-./workspace}:/workspace
     working_dir: /workspace
