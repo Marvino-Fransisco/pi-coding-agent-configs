@@ -184,6 +184,33 @@ Switch models at runtime with `/model` in the interactive TUI.
 - **User**: `node` (non-root)
 - **Philosophy**: "No background bash. Use tmux." — tmux is pre-installed and configured for managing long-running processes
 
+## Troubleshooting
+
+### Thinking messages not italic (shows background color instead)
+
+If pi's thinking/reflecting messages appear with a **background color highlight** instead of *italic* text, this is caused by your host terminal's `TERM` value not supporting italic.
+
+**Why it happens:**
+
+When you `docker exec -it` into the container, your host's `TERM` environment variable is inherited. Some terminal/muxer combinations (e.g. Ghostty + tmux) set `TERM=screen-256color`, which does **not** include italic (`sitm`) capability. The app then falls back to standout mode (`smso`), which renders as a background color.
+
+```
+Ghostty → tmux → TERM=screen-256color → docker exec → container
+                                                      └─ No italic ❌ (falls back to bg color)
+```
+
+**The fix is on your host, not the container:**
+
+In your Ghostty config (on your laptop), set:
+
+```
+term = xterm-256color
+```
+
+This ensures tmux picks up a TERM value with italic support, and everything downstream (including the container) will render italic correctly.
+
+> **Note:** Do not try to fix this in the Dockerfile. The host's `TERM` overrides the container's `ENV TERM=`, so installing terminfo in the image won't help. Fix it at the source — your terminal config.
+
 ## Further Reading
 
 - [pi-mono repository](https://github.com/badlogic/pi-mono) — The monorepo containing all pi packages

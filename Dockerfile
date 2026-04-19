@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && ln -s /usr/bin/fdfind /usr/bin/fd \
     && rm -rf /var/lib/apt/lists/*
 
+
 RUN npm install -g @mariozechner/pi-coding-agent tsx \
     && npm cache clean --force
 
