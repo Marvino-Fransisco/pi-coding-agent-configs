@@ -1,0 +1,15 @@
+services:
+  pi:
+    container_name: pi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pi-coding-agent:latest
+    stdin_open: true
+    tty: true
+    env_file:
+      - .env
+    volumes:
+      - ./pi:/home/node/.pi
+      - ./workspace:/workspace
+    working_dir: /workspace
