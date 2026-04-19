@@ -10,6 +10,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./pi:/home/node/.pi
+      - ./pi/extensions:/pi/extensions
+      - ./pi/agent:/home/node/.pi/agent
       - ${HOST_WS:-./workspace}:/workspace
     working_dir: /workspace

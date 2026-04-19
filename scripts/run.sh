@@ -18,7 +18,7 @@ done
 SCRIPT_DIR="$(cd "$(dirname "$RESOLVE")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 COMPOSE_FILE="$PROJECT_DIR/docker-compose.yml"
-TEAM_FILE="$PROJECT_DIR/pi/agent/extensions/team.yaml"
+TEAM_FILE="$PROJECT_DIR/pi/extensions/team.yaml"
 
 HOST_WS="$(pwd)"
 
@@ -131,5 +131,4 @@ fi
 # ---------------------------------------------------------------------------
 # Default: no arguments — show help
 # ---------------------------------------------------------------------------
-log "${YELLOW}No team specified. Run ${BOLD}pi help${NC}${YELLOW} to see available teams.${NC}"
-exit 1
+exec "$0" help
