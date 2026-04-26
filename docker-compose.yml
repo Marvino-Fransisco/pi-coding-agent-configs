@@ -12,5 +12,6 @@ services:
     volumes:
       - ./pi/extensions:/pi/extensions
       - ./pi/agent:/home/node/.pi/agent
+      - ~/.ssh:/home/node/.ssh
       - ${HOST_WS:-./workspace}:/workspace
     working_dir: /workspace

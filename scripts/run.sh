@@ -86,7 +86,7 @@ case "${1:-}" in
     exit 0
     ;;
   help|--help|-h)
-    echo -e "${BOLD}Usage:${NC} pi [command]"
+    echo -e "${BOLD}Usage:${NC} pi <command|team> [options]"
     echo ""
     echo -e "${BOLD}Commands:${NC}"
     echo "  down      Stop and remove the container"
@@ -98,7 +98,10 @@ case "${1:-}" in
       printf "  %-12s %s\n" "$team" "$desc"
     done < <(parse_teams)
     echo ""
-    echo -e "${DIM}Run a team: pi <team>${NC}"
+    echo -e "${BOLD}Examples:${NC}"
+    echo -e "  ${CYAN}pi general${NC}       # Run the 'general' team"
+    echo -e "  ${CYAN}pi <team>${NC}        # Run any team listed above"
+    echo -e "  ${CYAN}pi down${NC}          # Stop the container"
     exit 0
     ;;
 esac

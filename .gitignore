@@ -1,2 +1,5 @@
 .env
+
+# Pi
 pi/agent/sessions/
+pi/agent/skills/arm/
