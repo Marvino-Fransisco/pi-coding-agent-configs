@@ -13,5 +13,6 @@ services:
       - ./pi/extensions:/pi/extensions
       - ./pi/agent:/home/node/.pi/agent
       - ~/.ssh:/home/node/.ssh
+      - ~/agent-registry:/home/node/agent-registry
       - ${HOST_WS:-./workspace}:/workspace
     working_dir: /workspace

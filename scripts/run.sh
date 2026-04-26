@@ -85,12 +85,25 @@ case "${1:-}" in
     log "${GREEN}Container stopped${NC}"
     exit 0
     ;;
+  update)
+    log "Updating pi-coding-agent..."
+    docker compose -f "$COMPOSE_FILE" build --build-arg CACHEBUST=$(date +%s)
+    log "${GREEN}Update complete${NC}"
+
+    if docker ps --format '{{.Names}}' | grep -q '^pi$'; then
+      log "Restarting container with new image..."
+      HOST_WS="$HOST_WS" docker compose -f "$COMPOSE_FILE" up -d
+      log "${GREEN}Container restarted${NC}"
+    fi
+    exit 0
+    ;;
   help|--help|-h)
     echo -e "${BOLD}Usage:${NC} pi <command|team> [options]"
     echo ""
     echo -e "${BOLD}Commands:${NC}"
     echo "  down      Stop and remove the container"
     echo "  help      Show this help message"
+    echo "  update    Update pi-coding-agent to latest version"
     echo ""
     echo -e "${BOLD}Teams:${NC}"
     while IFS= read -r team; do
