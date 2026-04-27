@@ -12,7 +12,9 @@ services:
     volumes:
       - ./pi/extensions:/pi/extensions
       - ./pi/agent:/home/node/.pi/agent
-      - ~/.ssh:/home/node/.ssh
       - ~/agent-registry:/home/node/agent-registry
+      - ~/.ssh/arm.pem:/home/node/.ssh/arm.pem:ro
+      - ~/.ssh/pi-container:/home/node/.ssh/id_ed25519
+      - ~/.ssh/pi-container.pub:/home/node/.ssh/id_ed25519.pub:ro
       - ${HOST_WS:-./workspace}:/workspace
     working_dir: /workspace
