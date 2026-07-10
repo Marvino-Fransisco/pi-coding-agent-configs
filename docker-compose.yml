@@ -17,4 +17,5 @@ services:
       - ~/.ssh/pi-container:/home/node/.ssh/id_ed25519
       - ~/.ssh/pi-container.pub:/home/node/.ssh/id_ed25519.pub:ro
       - ${HOST_WS:-./workspace}:/workspace
+      - ./.credentials.json:/home/node/.claude/.credentials.json
     working_dir: /workspace

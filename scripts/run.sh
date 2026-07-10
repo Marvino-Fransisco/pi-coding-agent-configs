@@ -79,6 +79,11 @@ ensure_container() {
 # Commands
 # ---------------------------------------------------------------------------
 case "${1:-}" in
+  up)
+    ensure_container
+    log "Entering container shell..."
+    exec docker exec -it pi bash
+    ;;
   down)
     log "Stopping container..."
     docker compose -f "$COMPOSE_FILE" down
@@ -101,6 +106,7 @@ case "${1:-}" in
     echo -e "${BOLD}Usage:${NC} pi <command|team> [options]"
     echo ""
     echo -e "${BOLD}Commands:${NC}"
+    echo "  up        Start the container and open a shell inside it"
     echo "  down      Stop and remove the container"
     echo "  help      Show this help message"
     echo "  update    Update pi-coding-agent to latest version"
@@ -114,6 +120,7 @@ case "${1:-}" in
     echo -e "${BOLD}Examples:${NC}"
     echo -e "  ${CYAN}pi general${NC}       # Run the 'general' team"
     echo -e "  ${CYAN}pi <team>${NC}        # Run any team listed above"
+    echo -e "  ${CYAN}pi up${NC}            # Start the container and open a shell"
     echo -e "  ${CYAN}pi down${NC}          # Stop the container"
     exit 0
     ;;
@@ -134,6 +141,7 @@ if [[ -n "${1:-}" ]]; then
       ensure_container
 
       log "Starting team ${BOLD}${team}${NC}..."
+      clear
       exec docker exec -it pi $TEAM_CMD
     fi
   done

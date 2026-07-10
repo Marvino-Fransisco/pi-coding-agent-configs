@@ -1,18 +1,21 @@
 {
-  "lastChangelogVersion": "0.70.2",
+  "lastChangelogVersion": "0.80.6",
   "quietStartup": true,
   "theme": "marvino",
-  "defaultProvider": "zai",
-  "defaultModel": "glm-5.1",
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-sonnet-5",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
   "autoCompleteMaxVisible": 5,
   "transport": "sse",
   "enabledModels": [
+    "zai/glm-5.2",
     "zai/glm-5.1",
-    "zai/glm-4.7",
-    "zai/glm-5",
-    "zai/glm-5-turbo"
+    "claude-sonnet-5",
+    "claude-opus-4-8"
   ],
-  "collapseChangelog": false
+  "collapseChangelog": false,
+  "packages": [
+    "npm:pi-claude-auth"
+  ]
 }

@@ -13,7 +13,9 @@ RUN ARCH=$(dpkg --print-architecture) \
     && chmod +x /usr/local/bin/yq
 
 ARG CACHEBUST=1
-RUN npm install -g @mariozechner/pi-coding-agent tsx \
+# RUN npm install -g @mariozechner/pi-coding-agent tsx \
+    # && npm cache clean --force
+RUN npm install -g --ignore-scripts @earendil-works/pi-coding-agent \
     && npm cache clean --force
 
 RUN mkdir -p /home/node/.pi/agent /home/node/.ssh \

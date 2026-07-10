@@ -3,3 +3,6 @@
 # Pi
 pi/agent/sessions/
 pi/agent/skills/arm/
+
+# Credentials
+.credentials.json

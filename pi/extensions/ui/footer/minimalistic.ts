@@ -36,7 +36,7 @@ export function setupFooter(pi: ExtensionAPI) {
 				const rightW = visibleWidth(right);
 				const padding = " ".repeat(Math.max(1, width - leftW - rightW));
 
-				return [truncateToWidth(left + padding + right, width), ""];
+				return [truncateToWidth(left + padding + right, width)];
 			},
 		}));
 	});
