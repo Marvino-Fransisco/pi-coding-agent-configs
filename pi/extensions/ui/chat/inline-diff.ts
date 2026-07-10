@@ -1,6 +1,6 @@
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
-import { createEditToolDefinition } from "@mariozechner/pi-coding-agent";
-import { Container, Spacer, Text } from "@mariozechner/pi-tui";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import { createEditToolDefinition } from "@earendil-works/pi-coding-agent";
+import { Container, Spacer, Text } from "@earendil-works/pi-tui";
 import { Type } from "@sinclair/typebox";
 import { visibleWidth } from "../utils";
 import { statusColorFor, wrapResultWithConnector, wrapWithDot } from "./status-dot";
@@ -28,6 +28,13 @@ const HIGHLIGHT_BG: RGB = [46, 150, 60]; // edited words inside a new line
 const HIGHLIGHT_FG: RGB = [220, 255, 220];
 const CONTEXT_FG: RGB = [150, 150, 160];
 const GUTTER_FG: RGB = [110, 110, 122];
+
+// Columns a tab is expanded to. visibleWidth() counts a tab as exactly 3
+// columns, but the terminal draws it expanding to the next 8-column stop —
+// so the width we *measure* and the width the terminal *draws* diverge,
+// making the row background wrap and leaving stray blank gaps mid-row.
+// Emitting 3 spaces per tab keeps measured == drawn width.
+const TAB_WIDTH = 3;
 
 interface DiffLine {
 	type: "removed" | "added" | "context" | "ellipsis";
@@ -74,7 +81,7 @@ function layoutRow(segments: Seg[], width: number, baseBg: RGB | null): string[]
 	for (const seg of segments) {
 		let buf = "";
 		for (const ch of seg.text) {
-			const w = charWidth(ch);
+			const w = ch === "\t" ? TAB_WIDTH : charWidth(ch);
 			if (curW + w > width) {
 				if (buf) {
 					cur += ansi(buf, seg.bg, seg.fg);
@@ -82,7 +89,7 @@ function layoutRow(segments: Seg[], width: number, baseBg: RGB | null): string[]
 				}
 				flush();
 			}
-			buf += ch;
+			buf += ch === "\t" ? " ".repeat(TAB_WIDTH) : ch;
 			curW += w;
 		}
 		if (buf) cur += ansi(buf, seg.bg, seg.fg);

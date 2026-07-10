@@ -6,7 +6,7 @@
  *
  * Drop this in ~/.pi/agent/extensions/ and it auto-loads.
  */
-import type { ExtensionAPI } from "@mariozechner/pi-coding-agent";
+import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 const DANGEROUS_PATTERNS = [
   /rm\s+(-rf|-fr)\s+[\/~]/,  // rm -rf with absolute/home paths
