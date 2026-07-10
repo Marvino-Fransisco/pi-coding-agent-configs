@@ -1,5 +1,8 @@
 .env
 
+# Dependencies
+node_modules/
+
 # Pi
 pi/agent/sessions/
 pi/agent/skills/arm/
